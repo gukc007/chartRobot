@@ -11,6 +11,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URI;
+import java.net.URLEncoder;
 
 /**
  * Created by admin on 2018/9/26.
@@ -21,14 +22,14 @@ public class WebRequestService {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static String getTuLingMessage(String info) throws Exception {
-        String url = Constants.tuLingUrl + info;
+        String url = Constants.tuLingUrl + URLEncoder.encode(info, "utf-8");
         HttpGet httpGet = new HttpGet(url);
         HttpResponse response = client.execute(httpGet);
         HttpEntity entity = response.getEntity();
         String str = EntityUtils.toString(entity, "UTF-8");
 
         JsonNode jsonNode = mapper.readTree(str);
-        return jsonNode.get("text").toString();
+        return jsonNode.get("text").asText();
     }
 
     public static HttpGet createGet(String url) throws Exception {

@@ -20,10 +20,23 @@ public class Main {
 
     public static void main(String[] agrs) throws Exception {
         Scanner sc = new Scanner(System.in);
-        while (true) {
-            String info = sc.nextLine();
+        int count = 0;
+        int i = 1;
+        String name;
+        String info = "你好";
+        while (count < 30) {
+            if (i == 1) {
+                name = "A";
+                i = 2;
+            } else {
+                name = "B";
+                i = 1;
+            }
+//            String info = sc.nextLine();
             String answer = WebRequestService.getTuLingMessage(info);
-            System.out.println(answer);
+            System.out.println(name + " : " +answer);
+            info = answer;
+            count ++;
         }
     }
 }
