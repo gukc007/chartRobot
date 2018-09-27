@@ -48,8 +48,8 @@ public class Main {
 //            info = answer;
 //            count ++;
 //        }
-//        testQQ();
-        testQQ2();
+
+//        Receiver receiver = new Receiver();
     }
 
     private static void testQQ2() throws Exception {
@@ -84,6 +84,7 @@ public class Main {
 
     }
 
+    @Deprecated
     private static void testQQ() throws Exception {
         BasicHttpContext localContext = new BasicHttpContext();
         CloseableHttpClient client = HttpClients.createDefault();

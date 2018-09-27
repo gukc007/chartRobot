@@ -1,5 +1,7 @@
 package com.chartRobot.main;
 
+import com.chartRobot.common.Constants;
+import com.chartRobot.service.WebRequestService;
 import com.scienjus.smartqq.callback.MessageCallback;
 import com.scienjus.smartqq.client.SmartQQClient;
 import com.scienjus.smartqq.model.*;
@@ -38,11 +40,23 @@ public class Receiver {
                 return;
             }
             try {
-                System.out.println("[" + getTime() + "] [私聊] " + getFriendNick(msg) + "：" + msg.getContent());
+                if (String.valueOf(msg.getUserId()).equals(Constants.QQ_NUMBER)) {
+                    return;
+                }
+                String userName = getFriendNick(msg);
+                if (userName != null) {
+                    System.out.println("[" + getTime() + "] [私聊] " + getFriendNick(msg) + "：" + msg.getContent());
+                    String reply = WebRequestService.getTuLingMessage(msg.getContent());
+                    client.sendMessageToFriend(msg.getUserId(), reply);
+                    System.out.println("回复[" + getFriendNick(msg) + "] : " + reply);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        private boolean flag = false;
+        private Map<Long, String> groupReply = new HashMap<>();
 
         @Override
         public void onGroupMessage(GroupMessage msg) {
@@ -50,7 +64,31 @@ public class Receiver {
                 return;
             }
             try {
+                String lastReply = groupReply.get(msg.getGroupId());
+                if (msg.getContent().isEmpty() || lastReply != null && lastReply.equals(msg.getContent())) {
+                    //两次重复
+                    return;
+                }
                 System.out.println("[" + getTime() + "] [" + getGroupName(msg) + "] " + getGroupUserNick(msg) + "：" + msg.getContent());
+                String reply = null;
+                if (msg.getContent().equals("#关闭")) {
+                    flag = false;
+                    reply = "关闭";
+                    client.sendMessageToGroup(msg.getGroupId(), reply);
+                    System.out.println("回复群[" + getGroupName(msg) + "] : " + reply);
+                }
+                if (flag) {
+                    reply = WebRequestService.getTuLingMessage(msg.getContent());
+                    client.sendMessageToGroup(msg.getGroupId(), reply);
+                    System.out.println("回复群[" + getGroupName(msg) + "] : " + reply);
+                }
+                if (msg.getContent().equals("#开启")) {
+                    flag = true;
+                    reply = "开启";
+                    client.sendMessageToGroup(msg.getGroupId(), reply);
+                    System.out.println("回复群[" + getGroupName(msg) + "] : " + reply);
+                }
+                groupReply.put(msg.getGroupId(), reply);
             } catch (Exception e) {
                 e.printStackTrace();
             }
