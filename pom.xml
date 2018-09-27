@@ -7,6 +7,18 @@
     <groupId>com.chartRobot</groupId>
     <artifactId>chartRobot</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -22,16 +34,33 @@
         </dependency>
 
         <dependency>
+            <groupId>com.scienjus</groupId>
+            <artifactId>smartqq</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.0</version>
         </dependency>
-
+<!--
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>4.5.3</version>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
+
+<!--    <repositories>
+        <repository>
+            <id>scienjus-mvn-repo</id>
+            <url>https://raw.github.com/ScienJus/maven/snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>-->
 </project>

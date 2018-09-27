@@ -1,0 +1,8 @@
+2018-09-27 14:55:14 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(127) -二维码已保存在 D:\github\chartRobot\qrcode.png 文件中，请打开手机QQ并扫描二维码
+2018-09-27 14:57:04 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(127) -二维码已保存在 D:\github\chartRobot\qrcode.png 文件中，请打开手机QQ并扫描二维码
+2018-09-27 14:58:22 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(127) -二维码已保存在 D:\github\chartRobot\qrcode.png 文件中，请打开手机QQ并扫描二维码
+2018-09-27 15:00:34 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(127) -二维码已保存在 D:\github\chartRobot\qrcode.png 文件中，请打开手机QQ并扫描二维码
+2018-09-27 17:39:47 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(133) -二维码已保存在 D:\github\chartRobot\qrcode.png 文件中，请打开手机QQ并扫描二维码
+2018-09-27 17:40:37 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(156) -正在登录，请稍后
+2018-09-27 17:40:38 [ INFO] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(110) -gukc小号，欢迎！
+2018-09-27 17:40:38 [ERROR] - com.scienjus.smartqq.client.SmartQQClient -SmartQQClient.java(87) -java.net.SocketException: Socket Closed

@@ -10,7 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.net.URI;
 import java.net.URLEncoder;
 
 /**
@@ -22,7 +21,7 @@ public class WebRequestService {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static String getTuLingMessage(String info) throws Exception {
-        String url = Constants.tuLingUrl + URLEncoder.encode(info, "utf-8");
+        String url = Constants.TU_LING_URL + URLEncoder.encode(info, "utf-8");
         HttpGet httpGet = new HttpGet(url);
         HttpResponse response = client.execute(httpGet);
         HttpEntity entity = response.getEntity();
