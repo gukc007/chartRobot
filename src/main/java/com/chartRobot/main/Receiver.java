@@ -19,6 +19,7 @@ import java.util.*;
 
 public class Receiver {
 
+    private static UserInfo userInfo;
     private static List<Friend> friendList = new ArrayList<>();                 //好友列表
     private static List<Group> groupList = new ArrayList<>();                   //群列表
     private static List<Discuss> discussList = new ArrayList<>();               //讨论组列表
@@ -27,6 +28,9 @@ public class Receiver {
     private static Map<Long, GroupInfo> groupInfoFromID = new HashMap<>();      //群id到群详情映射
     private static Map<Long, Discuss> discussFromID = new HashMap<>();          //讨论组id到讨论组映射
     private static Map<Long, DiscussInfo> discussInfoFromID = new HashMap<>();  //讨论组id到讨论组详情映射
+
+    //用来判断该群是否开启自动回复
+    private static Map<Long, Boolean> groupFlags = new HashMap<>();
 
     private static boolean working;
     /**
@@ -55,22 +59,20 @@ public class Receiver {
             }
         }
 
-        private boolean flag = false;
-        private Map<Long, String> groupReply = new HashMap<>();
-
         @Override
         public void onGroupMessage(GroupMessage msg) {
             if (!working) {
                 return;
             }
             try {
-                String lastReply = groupReply.get(msg.getGroupId());
-                if (msg.getContent().isEmpty() || lastReply != null && lastReply.equals(msg.getContent())) {
-                    //两次重复
+                if (msg.getContent().isEmpty() || String.valueOf(msg.getUserId()).equals(userInfo.getUin())) {
+                    //自己发送的内容
                     return;
                 }
+
+                Boolean flag = groupFlags.computeIfAbsent(msg.getGroupId(), a -> false);
                 System.out.println("[" + getTime() + "] [" + getGroupName(msg) + "] " + getGroupUserNick(msg) + "：" + msg.getContent());
-                String reply = null;
+                String reply;
                 if (msg.getContent().equals("#关闭")) {
                     flag = false;
                     reply = "关闭";
@@ -88,7 +90,7 @@ public class Receiver {
                     client.sendMessageToGroup(msg.getGroupId(), reply);
                     System.out.println("回复群[" + getGroupName(msg) + "] : " + reply);
                 }
-                groupReply.put(msg.getGroupId(), reply);
+                groupFlags.put(msg.getGroupId(), flag);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -246,11 +248,13 @@ public class Receiver {
             friendFromID.put(friend.getUserId(), friend);
         }
         for (Group group : groupList) {                     //建立群id到群映射
+            groupFlags.put(group.getId(), false); //添加开关判断
             groupFromID.put(group.getId(), group);
         }
         for (Discuss discuss : discussList) {               //建立讨论组id到讨论组映射
             discussFromID.put(discuss.getId(), discuss);
         }
+        userInfo = client.getAccountInfo();
         working = true;                                     //映射建立完毕后恢复工作
         //为防止请求过多导致服务器启动自我保护
         //群id到群详情映射 和 讨论组id到讨论组详情映射 将在第一次请求时创建
