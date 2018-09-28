@@ -1,6 +1,7 @@
 package com.chartRobot.main;
 
 import com.chartRobot.common.Constants;
+import com.chartRobot.model.TuLingMessage;
 import com.chartRobot.service.WebRequestService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,10 +43,10 @@ public class Main {
                 name = "B";
                 i = 1;
             }
-//            info = sc.nextLine();
-            String answer = WebRequestService.getTuLingMessage(info);
-            System.out.println(name + " : " +answer);
-            info = answer;
+            info = sc.nextLine();
+            TuLingMessage tuLingMessage = WebRequestService.getTuLingMessage(info, "2337017911233");
+            System.out.println(name + " : " + tuLingMessage.getText());
+//            info = answer;
             count ++;
         }
 
@@ -84,6 +85,11 @@ public class Main {
 
     }
 
+    /**
+     * 不推荐使用帐号密码登录
+     *
+     * @throws Exception
+     */
     @Deprecated
     private static void testQQ() throws Exception {
         BasicHttpContext localContext = new BasicHttpContext();

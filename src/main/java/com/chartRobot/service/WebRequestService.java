@@ -1,6 +1,7 @@
 package com.chartRobot.service;
 
 import com.chartRobot.common.Constants;
+import com.chartRobot.model.TuLingMessage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
@@ -43,16 +44,20 @@ public class WebRequestService {
         return jsonNode.get("text").asText();
     }
 
-//    public static String getTuLingMessage(String info, String userId) throws Exception {
-//        String url = Constants.TU_LING_URL + URLEncoder.encode(info, "utf-8");
-//        HttpGet httpGet = createGet(url);
-//        HttpResponse response = client.execute(httpGet);
-//        HttpEntity entity = response.getEntity();
-//        String str = EntityUtils.toString(entity, "UTF-8");
-//
+    public static TuLingMessage getTuLingMessage(String info, String userId) throws Exception {
+        Map<String, String> param = new HashMap<>();
+        param.put("key", Constants.TU_LING_KEY);
+        param.put("info", info);
+        param.put("userid", userId);
+
+        HttpPost httpPost = createPost(Constants.TU_LING_URL, toFormData(param));
+        HttpResponse response = client.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        String str = EntityUtils.toString(entity, "UTF-8");
+
 //        JsonNode jsonNode = mapper.readTree(str);
-//        return jsonNode.get("text").asText();
-//    }
+        return mapper.readValue(str, TuLingMessage.class);
+    }
 
     public static HttpGet createGet(String url, List<NameValuePair> para) throws Exception {
         HttpGet httpGet;
