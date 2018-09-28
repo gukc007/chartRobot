@@ -5,7 +5,9 @@ package com.chartRobot.common;
  */
 public class Constants {
 
-    public static final String TU_LING_URL = "http://www.tuling123.com/openapi/api?key=77aa5b955fcab122b096f2c2dd8434c8&info=";
+    public static final String TU_LING_KEY = "77aa5b955fcab122b096f2c2dd8434c8";
+
+    public static final String TU_LING_URL = "http://www.tuling123.com/openapi/api";
 
     public static final String QQ_NUMBER = "2337017911";
 
